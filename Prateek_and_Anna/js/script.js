@@ -112,7 +112,11 @@ function triggerFinalUX() {
 
 // Typing Effect for Message
 function startTyping() {
-    const text = "In a world full of temporary things, our connection is the one thing I want to keep forever. Every day with you is a gift I never take for granted.";
+    const text = `Happy Valentine’s Day, my love 💞
+I still can’t believe how someone who came into my life so quietly became the most special part of my days. In such a short time, you’ve made me feel happier, calmer, and more myself. Being with you feels easy and real, and that means a lot to me.
+I love the way you think, the way you care, and the way you make even normal moments feel a little brighter. Thank you for choosing me and for being patient, kind, and so genuinely you.
+I’m really grateful you’re my girlfriend.
+Happy Valentine’s Day… I’m so happy it’s you. 💞`;
     const element = document.getElementById('typing-text');
     if (!element) return;
 

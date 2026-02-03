@@ -4,6 +4,7 @@ const progressFills = document.querySelectorAll('.progress-fill');
 const totalSlides = slides.length;
 let storyTimer;
 const slideDuration = 5000; // 5 seconds per slide (except interactive ones)
+let typingTimer = null;
 
 function initProgress() {
     progressFills.forEach((fill, index) => {
@@ -29,6 +30,7 @@ function showSlide(index) {
 
     // Clear previous timer and animations
     clearTimeout(storyTimer);
+    clearTimeout(typingTimer);
 
     // Update active slide
     slides.forEach((s, i) => {
@@ -112,6 +114,9 @@ function triggerFinalUX() {
 
 // Typing Effect for Message
 function startTyping() {
+    // Clear any existing typing timer to prevent overlap/double typing
+    if (typingTimer) clearTimeout(typingTimer);
+
     const text = `Happy Valentine’s Day, my love 💞
 I still can’t believe how someone who came into my life so quietly became the most special part of my days. In such a short time, you’ve made me feel happier, calmer, and more myself. Being with you feels easy and real, and that means a lot to me.
 I love the way you think, the way you care, and the way you make even normal moments feel a little brighter. Thank you for choosing me and for being patient, kind, and so genuinely you.
@@ -127,7 +132,7 @@ Happy Valentine’s Day… I’m so happy it’s you. 💞`;
         if (i < text.length) {
             element.innerHTML += text.charAt(i);
             i++;
-            setTimeout(type, 50);
+            typingTimer = setTimeout(type, 50);
         }
     }
     type();

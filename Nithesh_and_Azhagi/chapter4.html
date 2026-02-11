@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 4: The Moon</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Outfit:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background: transparent;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.8;
+            animation: twinkle 3s infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0% {
+                opacity: 0.3;
+                transform: scale(0.8);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+
+            100% {
+                opacity: 0.3;
+                transform: scale(0.8);
+            }
+        }
+
+        .main-content {
+            z-index: 10;
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+        }
+
+        .moon-wrapper {
+            position: relative;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeIn 3s ease-out forwards 0.5s;
+        }
+
+        .real-moon {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            box-shadow: 0 0 50px rgba(255, 255, 255, 0.8);
+            position: absolute;
+            background: #fff;
+            z-index: 1;
+            transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .user-moon-photo {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            object-fit: cover;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 2;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
+        }
+
+        .moon-active .real-moon {
+            opacity: 0;
+            transform: scale(4);
+            filter: blur(20px);
+        }
+
+        .moon-active .user-moon-photo {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .dialogue-box {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 3px solid white;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            text-align: left;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: all 1s;
+        }
+
+        .dialogue-box.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .glow-text {
+            color: #fff;
+            text-shadow: 0 0 10px #fff, 0 0 20px #fff;
+        }
+    </style>
+</head>
+
+<body class="page-chapter4">
+
+    <div class="stars" id="star-field"></div>
+
+    <div class="main-content">
+        <h1 style="font-size: 2rem; margin-bottom: 2rem; opacity: 0; animation: fadeIn 2s forwards;">The Moon Isn't
+            Beautiful</h1>
+
+        <div class="moon-wrapper" id="moon-scene">
+            <div class="real-moon"></div>
+            <!-- User to provide moon.jpg -->
+            <img src="./moon.jpeg" alt="Moon" class="user-moon-photo"
+                onerror="this.src='https://placehold.co/400x400/000/fff?text=Moon';">
+        </div>
+
+        <div class="story-text" style="margin-top: 3rem;">
+            <p class="reveal-text">I told you something strange that night.</p>
+
+            <div class="dialogue-box reveal-text">
+                <p>“The moon isn’t beautiful,” I said.</p>
+                <p style="font-size: 0.9rem; opacity: 0.7; margin-top: 5px;">You asked me why.</p>
+                <br>
+                <p>“Because it’s a thief of light.</p>
+                <p>It has no fire of its own.</p>
+                <p>It only shines because it borrows from the sun.”</p>
+            </div>
+
+            <div class="dialogue-box reveal-text"
+                style="border-left-color: var(--accent-gold); background: rgba(255, 215, 0, 0.05);">
+                <p>But you...</p>
+                <p class="glow-text" style="font-size: 1.3rem; margin-top: 10px;">You don't need the sun.</p>
+                <p class="glow-text" style="font-size: 1.5rem; margin-top: 5px;">You glow on your own, my Azhagi.</p>
+                <p class="glow-text" style="font-size: 1.3rem; margin-top: 5px;">You are the light.</p>
+            </div>
+
+            <p class="reveal-text">That was my first Valentine.</p>
+            <p class="reveal-text">My first real moment of courage.</p>
+        </div>
+
+        <div class="reveal-text" style="margin-top: 3rem;">
+            <p style="font-family: 'Dancing Script'; font-size: 1.5rem;">So tell me...</p>
+            <p>Can we continue this?</p>
+            <p>Not just today.</p>
+            <p style="font-weight: bold; font-size: 1.3rem;">But always?</p>
+            <br>
+            <a href="final.html" class="btn" style="background: white; color: black;">Ask the Question →</a>
+        </div>
+    </div>
+
+    <script>
+        // Star Generation
+        const starField = document.getElementById('star-field');
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            const size = Math.random() * 3 + 'px';
+            star.style.width = size;
+            star.style.height = size;
+            star.style.animationDelay = Math.random() * 5 + 's';
+            starField.appendChild(star);
+        }
+
+        // Moon Reveal Logic
+        const moonScene = document.getElementById('moon-scene');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    // Check if it's the moon wrapper
+                    if (entry.target.classList.contains('moon-wrapper')) {
+                        setTimeout(() => {
+                            entry.target.classList.add('moon-active');
+                            document.querySelector('.user-moon-photo').style.opacity = '1';
+                            document.querySelector('.user-moon-photo').style.transform = 'scale(1)';
+                            document.querySelector('.real-moon').style.opacity = '0';
+                            document.querySelector('.real-moon').style.transform = 'scale(3)';
+                        }, 500);
+                    } else {
+                        setTimeout(() => {
+                            entry.target.classList.add('visible');
+                        }, index * 200);
+                    }
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.3 }); // Trigger when 30% visible
+
+        document.querySelectorAll('.reveal-text').forEach(el => observer.observe(el));
+        if (moonScene) observer.observe(moonScene);
+    </script>
+</body>
+
+</html>

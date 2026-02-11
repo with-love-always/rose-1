@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 3: The Arrow</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Outfit:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            background-color: #000;
+            overflow: hidden;
+            /* For rain effect */
+        }
+
+        .rain-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .drop {
+            position: absolute;
+            width: 1px;
+            height: 20px;
+            background: rgba(174, 194, 224, 0.2);
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh);
+            }
+        }
+
+        .main-content {
+            z-index: 10;
+            position: relative;
+            max-width: 600px;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #ccc;
+            opacity: 0;
+            animation: fadeIn 2s ease-out forwards 0.5s;
+        }
+
+        .illustration-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin: 2rem auto;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(174, 194, 224, 0.2);
+            opacity: 0;
+            animation: fadeIn 2s ease-out forwards 1s;
+            z-index: 5;
+        }
+
+        .illustration-container img {
+            width: 100%;
+            display: block;
+            transition: transform 0.1s;
+        }
+
+        .impact-shake {
+            opacity: 1;
+            animation: shake 0.5s cubic-bezier(.36, .07, .19, .97) both;
+        }
+
+        @keyframes shake {
+
+            10%,
+            90% {
+                transform: translate3d(-1px, 0, 0);
+            }
+
+            20%,
+            80% {
+                transform: translate3d(2px, 0, 0);
+            }
+
+            30%,
+            50%,
+            70% {
+                transform: translate3d(-4px, 0, 0);
+            }
+
+            40%,
+            60% {
+                transform: translate3d(4px, 0, 0);
+            }
+        }
+
+        .flash-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 71, 87, 0.5);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .flash-active {
+            animation: flash 0.5s ease-out forwards;
+        }
+
+        @keyframes flash {
+            0% {
+                opacity: 0.5;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        .story-text p {
+            color: #aaa;
+            margin-bottom: 1.5rem;
+        }
+
+        .highlight-pain {
+            color: #ff4757;
+            text-shadow: 0 0 10px rgba(255, 71, 87, 0.3);
+            font-weight: bold;
+        }
+
+        .redemption {
+            margin-top: 3rem;
+            color: #fff !important;
+            font-size: 1.3rem;
+            opacity: 0;
+            animation: fadeIn 2s ease-out forwards 4s;
+        }
+
+        .btn-mute {
+            background: linear-gradient(45deg, #555, #777);
+        }
+
+        .btn-mute:hover {
+            box-shadow: 0 5px 15px rgba(100, 100, 100, 0.5);
+        }
+
+        .fade-sequence {
+            opacity: 0;
+            animation: fadeIn 2s ease-out forwards;
+        }
+    </style>
+</head>
+
+<body class="page-chapter3">
+
+    <div class="rain-container" id="rain"></div>
+
+    <div class="main-content">
+        <h1>The Shot That Hurt</h1>
+
+        <div class="story-text" style="opacity: 0; animation: fadeIn 2s ease-out forwards 1s;">
+            <p>Not all love stories are soft.</p>
+        </div>
+
+        <div class="illustration-container" id="arrow-scene">
+            <!-- User to provide arrow.jpeg -->
+            <img src="arrow.jpeg" alt="Cupid Strike"
+                onerror="this.src='https://placehold.co/600x400/222/fff?text=Arrow+Illustration';">
+            <div class="flash-overlay" id="impact-flash"></div>
+        </div>
+
+        <div class="story-text">
+            <p class="fade-sequence" style="animation-delay: 2.5s">One day — you pulled the string.</p>
+            <p class="fade-sequence" style="animation-delay: 3s">An invisible arrow.</p>
+            <p class="fade-sequence highlight-pain" style="animation-delay: 3.2s; font-size: 2rem;">And it hit. 💔</p>
+        </div>
+
+        <div class="story-text redemption">
+            <p>But even then...</p>
+            <p style="font-family: 'Dancing Script'; font-size: 1.8rem; color: #fff;">You were still my Azhagi.</p>
+            <p>Still... Mine.</p>
+            <p style="font-size: 0.9rem; color: #888; margin-top: 10px;">"Even broken hearts beat for the same person."
+            </p>
+        </div>
+
+        <div id="next-btn-container" style="margin-top: 30px; opacity: 0; animation: fadeIn 2s ease-out forwards 5s;">
+            <a href="chapter4.html" class="btn btn-mute">Next Chapter →</a>
+        </div>
+    </div>
+
+    <script>
+        // Rain Effect
+        const rainContainer = document.getElementById('rain');
+        function createRain() {
+            for (let i = 0; i < 50; i++) {
+                const drop = document.createElement('div');
+                drop.classList.add('drop');
+                drop.style.left = Math.random() * 100 + '%';
+                drop.style.animationDuration = Math.random() * 0.5 + 0.5 + 's';
+                drop.style.animationDelay = Math.random() * 2 + 's';
+                rainContainer.appendChild(drop);
+            }
+        }
+        createRain();
+
+        // Impact Animation Sequencing
+        setTimeout(() => {
+            const scene = document.getElementById('arrow-scene');
+            const flash = document.getElementById('impact-flash');
+
+            if (scene && flash) {
+                // Trigger shake and flash exactly when "And it hit" appears
+                scene.classList.add('impact-shake');
+                flash.classList.add('flash-active');
+
+                // Intense rain flicker
+                if (rainContainer) {
+                    rainContainer.style.opacity = '0.2';
+                    setTimeout(() => rainContainer.style.opacity = '1', 100);
+                }
+            }
+        }, 3400); // Sync with 'And it hit' roughly
+
+        // Scroll to button when it appears
+        setTimeout(() => {
+            const btnContainer = document.getElementById('next-btn-container');
+            btnContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 5500);
+    </script>
+</body>
+
+</html>

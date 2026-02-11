@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 2: Virtual Ice Cream</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Outfit:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .blobs-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .blob {
+            position: absolute;
+            background: radial-gradient(circle, rgba(255, 184, 184, 0.4) 0%, rgba(255, 184, 184, 0) 70%);
+            border-radius: 50%;
+            filter: blur(20px);
+            animation: float-blob 10s infinite alternate ease-in-out;
+        }
+
+        @keyframes float-blob {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            100% {
+                transform: translate(30px, -30px) scale(1.1);
+            }
+        }
+
+        .main-content {
+            z-index: 10;
+            max-width: 600px;
+            padding: 20px;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            color: #ffb8b8;
+            text-shadow: 0 0 10px rgba(255, 184, 184, 0.5);
+            opacity: 0;
+            animation: fadeIn 2s ease-out forwards 0.5s;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #ebd4d8;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeIn 2s ease-out forwards 1s;
+        }
+
+        .video-frame {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 9/16;
+            max-width: 300px;
+            margin: 0 auto 2rem;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 4px solid #fff;
+            box-shadow: 0 10px 40px rgba(255, 184, 184, 0.3);
+            transform: rotate(-2deg);
+            opacity: 0;
+            animation: fadeIn 2s ease-out forwards 1.5s, float 6s infinite ease-in-out 2s;
+        }
+
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .couple-stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 2rem 0;
+            opacity: 0;
+            animation: fadeIn 2s ease-out forwards 2s;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .quote-box {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 0.5s;
+        }
+
+        .quote-box.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+    </style>
+</head>
+
+<body class="page-chapter2">
+
+    <div class="blobs-container">
+        <div class="blob" style="width: 300px; height: 300px; top: -50px; left: -50px;"></div>
+        <div class="blob"
+            style="width: 200px; height: 200px; bottom: 10%; right: -20px; background: radial-gradient(circle, rgba(135, 206, 250, 0.3) 0%, rgba(135, 206, 250, 0) 70%);">
+        </div>
+    </div>
+
+    <div class="main-content">
+        <h1>Virtual Ice Cream</h1>
+        <p class="subtitle">Sweet Even Through a Screen</p>
+
+        <div class="video-frame">
+            <!-- User to provide icecream.mp4 -->
+            <video autoplay loop muted playsinline
+                poster="https://placehold.co/300x533/ffb8b8/fff?text=Ice+Cream+Video">
+                <source src="./ice-ceram.mp4" type="video/mp4">
+            </video>
+        </div>
+
+        <div class="story-text">
+            <p>Different places.</p>
+            <p>Same moment.</p>
+        </div>
+
+        <div class="couple-stats">
+            <div class="stat-item">
+                <span class="stat-icon">🥄</span>
+                Two Spoons
+            </div>
+            <div class="stat-item">
+                <span class="stat-icon">📱</span>
+                Two Screens
+            </div>
+            <div class="stat-item">
+                <span class="stat-icon">😊</span>
+                One Smile
+            </div>
+        </div>
+
+        <div class="story-text">
+            <p>We ate ice cream together — virtually. 🍦</p>
+            <p>It was silly. It was small.</p>
+            <p style="font-size: 1.5rem; color: #ffb8b8; margin-top: 1rem;">But it was ours.</p>
+        </div>
+
+        <div class="quote-box scroll-reveal">
+            <p style="font-family: 'Dancing Script'; font-size: 2rem;">"Even pixels tasted sweet with you."</p>
+        </div>
+
+        <div style="margin-top: 3rem;">
+            <a href="chapter3.html" class="btn">Next Chapter →</a>
+        </div>
+    </div>
+
+    <script>
+        // Simple Intersection Observer for reveal elements
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.2 });
+
+        document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+    </script>
+</body>
+
+</html>

@@ -50,6 +50,7 @@
         }
 
         /* Snow Effect */
+        /* Snow Effect */
         .snow-container {
             position: fixed;
             top: 0;
@@ -57,7 +58,7 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: 5;
+            z-index: -1;
         }
 
         .snowflake {
@@ -108,6 +109,7 @@
             background: radial-gradient(circle at 30% 30%, #fff, #dfe4ea);
             z-index: 1;
             transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
         }
 
         .user-moon-photo {
@@ -121,17 +123,45 @@
             transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 2;
             box-shadow: 0 0 40px rgba(255, 255, 255, 0.5);
+            pointer-events: none;
         }
 
         .moon-active .real-moon {
             opacity: 0;
             transform: scale(4);
             filter: blur(20px);
+            pointer-events: none;
         }
 
         .moon-active .user-moon-photo {
             opacity: 1;
             transform: scale(1);
+            pointer-events: auto;
+        }
+
+        .click-instruction {
+            position: absolute;
+            top: 110%;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            animation: pulse-op 2s infinite;
+            pointer-events: none;
+            width: 100%;
+            text-align: center;
+        }
+
+        @keyframes pulse-op {
+
+            0%,
+            100% {
+                opacity: 0.4;
+            }
+
+            50% {
+                opacity: 0.8;
+            }
         }
 
         .dialogue-box {
@@ -186,6 +216,7 @@
             <!-- User to provide moon.jpg -->
             <img src="./moon.jpeg" alt="Moon" class="user-moon-photo"
                 onerror="this.src='https://placehold.co/400x400/000/fff?text=Moon';">
+            <span class="click-instruction">Tap the moon...</span>
         </div>
 
         <div class="story-text" style="margin-top: 3rem;">
@@ -263,32 +294,40 @@
 
         // Moon Reveal Logic
         const moonScene = document.getElementById('moon-scene');
+        const realMoon = document.querySelector('.real-moon');
+
+        // Add click event to moon
+        if (realMoon) {
+            realMoon.addEventListener('click', () => {
+                moonScene.classList.add('moon-active');
+                document.querySelector('.user-moon-photo').style.opacity = '1';
+                document.querySelector('.user-moon-photo').style.transform = 'scale(1)';
+                realMoon.style.opacity = '0';
+                realMoon.style.transform = 'scale(3)';
+
+                // Hide instruction
+                const instr = document.querySelector('.click-instruction');
+                if (instr) instr.style.display = 'none';
+            });
+        }
+
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry, index) => {
                 if (entry.isIntersecting) {
-                    // Check if it's the moon wrapper
-                    if (entry.target.classList.contains('moon-wrapper')) {
-                        setTimeout(() => {
-                            entry.target.classList.add('moon-active');
-                            document.querySelector('.user-moon-photo').style.opacity = '1';
-                            document.querySelector('.user-moon-photo').style.transform = 'scale(1)';
-                            document.querySelector('.real-moon').style.opacity = '0';
-                            document.querySelector('.real-moon').style.transform = 'scale(3)';
-                        }, 500);
-                    } else {
+                    // Check if it's the moon wrapper - NO LONGER AUTO TRIGGER
+                    if (!entry.target.classList.contains('moon-wrapper')) {
                         setTimeout(() => {
                             entry.target.classList.add('visible');
                             entry.target.style.opacity = 1; // Ensure visibility for simple text
                             entry.target.style.transform = 'translateY(0)';
                         }, index * 200);
+                        observer.unobserve(entry.target);
                     }
-                    observer.unobserve(entry.target);
                 }
             });
         }, { threshold: 0.1 });
 
         document.querySelectorAll('.reveal-text').forEach(el => observer.observe(el));
-        if (moonScene) observer.observe(moonScene);
 
         // Persistent Background Music
         const bgm = new Audio('_Kadal_Alai_Pola_Tamil_Song_Ringtone_(by Fringster.com).mp3');

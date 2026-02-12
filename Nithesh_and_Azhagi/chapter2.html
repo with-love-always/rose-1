@@ -125,12 +125,43 @@
 
 <body class="page-chapter2">
 
-    <div class="blobs-container">
+    <div class="blobs-container" id="sweets-container">
         <div class="blob" style="width: 300px; height: 300px; top: -50px; left: -50px;"></div>
         <div class="blob"
             style="width: 200px; height: 200px; bottom: 10%; right: -20px; background: radial-gradient(circle, rgba(135, 206, 250, 0.3) 0%, rgba(135, 206, 250, 0) 70%);">
         </div>
     </div>
+
+    <style>
+        .floating-sweet {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.6;
+            animation: floatUp 15s linear infinite;
+            filter: drop-shadow(0 0 5px rgba(255, 182, 193, 0.5));
+            z-index: 1;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(110vh) rotate(0deg);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 0.7;
+            }
+
+            90% {
+                opacity: 0.7;
+            }
+
+            100% {
+                transform: translateY(-10vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
 
     <div class="main-content">
         <h1>Virtual Ice Cream</h1>
@@ -180,6 +211,22 @@
     </div>
 
     <script>
+        const sweetsContainer = document.getElementById('sweets-container');
+        const icons = ['🍦', '🍨', '🍧', '❤️', '✨', '🧁'];
+
+        for (let i = 0; i < 15; i++) {
+            const sweet = document.createElement('div');
+            sweet.classList.add('floating-sweet');
+            sweet.innerText = icons[Math.floor(Math.random() * icons.length)];
+
+            // Random positioning
+            sweet.style.left = Math.random() * 100 + '%';
+            sweet.style.animationDelay = Math.random() * 10 + 's';
+            sweet.style.fontSize = (Math.random() * 20 + 20) + 'px';
+
+            sweetsContainer.appendChild(sweet);
+        }
+
         // Simple Intersection Observer for reveal elements
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {

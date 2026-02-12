@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 0: The Battleground</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Dancing+Script:wght@500;700&family=Outfit:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            background: #1a1a1a;
+            /* Dark tactical background */
+            font-family: 'Outfit', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Battleground Ambience */
+        .battle-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            background: radial-gradient(circle at center, transparent 0%, #000 90%);
+        }
+
+        /* Subtle Fog/Smoke */
+        .fog {
+            position: absolute;
+            width: 200%;
+            height: 100%;
+            background: url('https://raw.githubusercontent.com/danielstuart14/CSS_FOG_ANIMATION/master/fog1.png') repeat-x;
+            background-size: contain;
+            animation: fogMove 60s linear infinite;
+            opacity: 0.3;
+            z-index: 2;
+        }
+
+        @keyframes fogMove {
+            0% {
+                background-position: 0 0;
+            }
+
+            100% {
+                background-position: 100% 0;
+            }
+        }
+
+        /* Crosshair SVG */
+        .crosshair-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 300px;
+            pointer-events: none;
+            z-index: 3;
+            opacity: 0.15;
+            animation: pulse-scope 4s infinite ease-in-out;
+        }
+
+        @keyframes pulse-scope {
+
+            0%,
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+            }
+
+            50% {
+                transform: translate(-50%, -50%) scale(1.05);
+            }
+        }
+
+        /* Muzzle Flashes */
+        .muzzle-flash {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, #ffcc00 0%, rgba(255, 69, 0, 0) 70%);
+            border-radius: 50%;
+            opacity: 0;
+            z-index: 4;
+            pointer-events: none;
+        }
+
+        @keyframes flashAnim {
+
+            0%,
+            100% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+
+            50% {
+                opacity: 0.6;
+                transform: scale(1.2);
+            }
+        }
+
+        /* Content Styling */
+        .main-content {
+            position: relative;
+            z-index: 10;
+            max-width: 600px;
+            padding: 20px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        h1 {
+            font-family: 'Black Ops One', cursive;
+            /* Tactical font */
+            font-size: 2.5rem;
+            color: #ff9f43;
+            /* Warning Orange */
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0;
+            animation: fadeIn 2s ease-out forwards 0.5s;
+            text-shadow: 0 0 10px rgba(255, 159, 67, 0.5);
+        }
+
+        .game-frame {
+            position: relative;
+            margin: 2rem auto;
+            border: 2px solid #57606f;
+            padding: 5px;
+            background: #2f3542;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            opacity: 0;
+            animation: fadeIn 2s ease-out forwards 1.5s;
+            transform: rotate(-1deg);
+        }
+
+        .game-frame::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            border: 1px dashed #ffa502;
+            z-index: -1;
+            border-radius: 12px;
+            animation: borderPulse 2s infinite;
+        }
+
+        @keyframes borderPulse {
+
+            0%,
+            100% {
+                opacity: 0.3;
+            }
+
+            50% {
+                opacity: 0.8;
+            }
+        }
+
+        .story-text p {
+            font-size: 1.1rem;
+            color: #dfe4ea;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: slideUp 1s ease-out forwards;
+        }
+
+        .highlight-orange {
+            color: #ffa502;
+            font-weight: bold;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .btn-game {
+            background: linear-gradient(45deg, #ffa502, #ff6348);
+            color: #fff;
+            font-family: 'Black Ops One', cursive;
+            letter-spacing: 1px;
+            border: none;
+            box-shadow: 0 5px 15px rgba(255, 99, 72, 0.4);
+        }
+
+        .btn-game:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 99, 72, 0.6);
+        }
+    </style>
+</head>
+
+<body class="page-game">
+
+    <div class="battle-overlay"></div>
+    <!-- Fog Effect -->
+    <div class="fog"></div>
+    <div class="fog" style="animation-delay: -30s; top: 20%;"></div>
+
+    <!-- SVG Crosshair -->
+    <div class="crosshair-container">
+        <svg viewBox="0 0 100 100" fill="none" stroke="#dfe4ea" stroke-width="0.5">
+            <circle cx="50" cy="50" r="45" stroke-dasharray="5,5" />
+            <line x1="50" y1="5" x2="50" y2="95" />
+            <line x1="5" y1="50" x2="95" y2="50" />
+            <rect x="40" y="40" width="20" height="20" stroke-opacity="0.5" />
+        </svg>
+    </div>
+
+    <!-- Random Muzzle Flashes Container -->
+    <div id="flash-container"></div>
+
+    <div class="main-content">
+        <h1>The Lobby</h1>
+
+        <div class="story-text" style="animation-delay: 1s;">
+            <p style="animation-delay: 1s;">Long before you walked in...</p>
+        </div>
+
+        <div class="game-frame">
+            <!-- User image: game.jpeg (Free Fire screenshot presumably) -->
+            <img src="game.jpeg" alt="In Game Meeting"
+                onerror="this.src='https://placehold.co/600x400/2f3542/ffa502?text=Free+Fire+Lobby';">
+        </div>
+
+        <div class="story-text">
+            <p style="animation-delay: 2.5s;">We met in a world of <span class="highlight-orange">crossfire</span>.</p>
+            <p style="animation-delay: 3s;">Just playing a game. Running past each other like ghosts.</p>
+            <p style="animation-delay: 3.5s;">You didn't notice me. I was just another teammate.</p>
+            <p style="animation-delay: 4s;">But somewhere amidst the chaos...</p>
+            <p style="animation-delay: 4.5s; font-family: 'Dancing Script'; font-size: 1.5rem; color: #ff6b81;">Fate was
+                already aiming at us.</p>
+        </div>
+
+        <div style="margin-top: 40px; opacity: 0; animation: fadeIn 2s ease-out forwards 5s;">
+            <a href="chapter1.html" class="btn btn-game">Next: The Real Meeting →</a>
+        </div>
+    </div>
+
+    <script>
+        // Generate random muzzle flashes for ambience
+        const flashContainer = document.getElementById('flash-container');
+
+        function createFlash() {
+            const flash = document.createElement('div');
+            flash.classList.add('muzzle-flash');
+
+            // Random position
+            const x = Math.random() * window.innerWidth;
+            const y = Math.random() * window.innerHeight;
+            flash.style.left = x + 'px';
+            flash.style.top = y + 'px';
+
+            // Random animation duration
+            const duration = Math.random() * 0.1 + 0.1;
+            flash.style.animation = `flashAnim ${duration}s linear`;
+
+            flashContainer.appendChild(flash);
+
+            // Remove after animation
+            setTimeout(() => {
+                flash.remove();
+            }, duration * 1000);
+
+            // Schedule next flash
+            setTimeout(createFlash, Math.random() * 2000 + 500);
+        }
+
+        // Create a few initial flash loops
+        createFlash();
+        setTimeout(createFlash, 1000);
+        setTimeout(createFlash, 2500);
+
+        // Sound Ambience (Optional: If user had audio files, we would play them here. 
+        // Since no files were provided, we stick to visual cues).
+
+        // Persistent Background Music
+        const bgm = new Audio('_Kadal_Alai_Pola_Tamil_Song_Ringtone_(by Fringster.com).mp3');
+        bgm.loop = true;
+        bgm.volume = 0.5;
+
+        if (sessionStorage.getItem('bgm_playing') === 'true') {
+            const savedTime = sessionStorage.getItem('bgm_time');
+            if (savedTime) {
+                bgm.currentTime = parseFloat(savedTime);
+            }
+            bgm.play().catch(e => console.log("Audio play failed:", e));
+        }
+
+        // Save progress
+        setInterval(() => {
+            if (!bgm.paused) {
+                sessionStorage.setItem('bgm_time', bgm.currentTime);
+            }
+        }, 1000);
+    </script>
+</body>
+
+</html>

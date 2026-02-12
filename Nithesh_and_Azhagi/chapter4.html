@@ -49,11 +49,42 @@
             }
         }
 
+        /* Snow Effect */
+        .snow-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .snowflake {
+            position: absolute;
+            color: #fff;
+            font-size: 1em;
+            font-family: Arial, sans-serif;
+            text-shadow: 0 0 5px #000;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-10vh) translateX(0);
+            }
+
+            100% {
+                transform: translateY(110vh) translateX(20px);
+            }
+        }
+
         .main-content {
             z-index: 10;
             width: 100%;
             max-width: 600px;
             padding: 20px;
+            position: relative;
         }
 
         .moon-wrapper {
@@ -68,12 +99,13 @@
         }
 
         .real-moon {
-            width: 100px;
-            height: 100px;
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
-            box-shadow: 0 0 50px rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 60px rgba(200, 220, 255, 0.9);
+            /* Cold blueish glow */
             position: absolute;
-            background: #fff;
+            background: radial-gradient(circle at 30% 30%, #fff, #dfe4ea);
             z-index: 1;
             transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
@@ -83,11 +115,12 @@
             height: 250px;
             border-radius: 50%;
             object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.3);
             opacity: 0;
             transform: scale(0.5);
             transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 2;
-            box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
+            box-shadow: 0 0 40px rgba(255, 255, 255, 0.5);
         }
 
         .moon-active .real-moon {
@@ -121,16 +154,32 @@
             color: #fff;
             text-shadow: 0 0 10px #fff, 0 0 20px #fff;
         }
+
+        .colder-vibe {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at top, rgba(20, 30, 48, 0.4), rgba(0, 0, 0, 0.8));
+            pointer-events: none;
+            z-index: 1;
+        }
     </style>
 </head>
 
 <body class="page-chapter4">
 
     <div class="stars" id="star-field"></div>
+    <div class="snow-container" id="snow"></div>
+    <div class="colder-vibe"></div>
 
     <div class="main-content">
-        <h1 style="font-size: 2rem; margin-bottom: 2rem; opacity: 0; animation: fadeIn 2s forwards;">The Moon Isn't
+        <h1 style="font-size: 2rem; margin-bottom: 0.5rem; opacity: 0; animation: fadeIn 2s forwards;">The Moon Isn't
             Beautiful</h1>
+        <p
+            style="font-family: 'Outfit', sans-serif; letter-spacing: 2px; color: #a4b0be; font-size: 0.9rem; margin-bottom: 2rem; opacity: 0; animation: fadeIn 2s forwards 0.5s;">
+            DECEMBER NIGHTS ❄️</p>
 
         <div class="moon-wrapper" id="moon-scene">
             <div class="real-moon"></div>
@@ -140,7 +189,8 @@
         </div>
 
         <div class="story-text" style="margin-top: 3rem;">
-            <p class="reveal-text">I told you something strange that night.</p>
+            <p class="reveal-text">It was cold that night.</p>
+            <p class="reveal-text">I told you something strange.</p>
 
             <div class="dialogue-box reveal-text">
                 <p>“The moon isn’t beautiful,” I said.</p>
@@ -169,7 +219,9 @@
             <p>Not just today.</p>
             <p style="font-weight: bold; font-size: 1.3rem;">But always?</p>
             <br>
-            <a href="final.html" class="btn" style="background: white; color: black;">Ask the Question →</a>
+            <a href="final.html" class="btn"
+                style="background: white; color: black; box-shadow: 0 0 20px rgba(255,255,255,0.5);">Ask the Question
+                →</a>
         </div>
     </div>
 
@@ -188,6 +240,27 @@
             starField.appendChild(star);
         }
 
+        // Snow Generation
+        const snowContainer = document.getElementById('snow');
+        function createSnow() {
+            const flake = document.createElement('div');
+            flake.innerText = '❄';
+            flake.classList.add('snowflake');
+            flake.style.left = Math.random() * 100 + '%';
+            flake.style.opacity = Math.random();
+            flake.style.fontSize = (Math.random() * 10 + 10) + 'px';
+
+            const duration = Math.random() * 5 + 5;
+            flake.style.animationDuration = duration + 's';
+
+            snowContainer.appendChild(flake);
+
+            setTimeout(() => {
+                flake.remove();
+            }, duration * 1000);
+        }
+        setInterval(createSnow, 300); // New snowflake every 300ms
+
         // Moon Reveal Logic
         const moonScene = document.getElementById('moon-scene');
         const observer = new IntersectionObserver((entries) => {
@@ -205,15 +278,36 @@
                     } else {
                         setTimeout(() => {
                             entry.target.classList.add('visible');
+                            entry.target.style.opacity = 1; // Ensure visibility for simple text
+                            entry.target.style.transform = 'translateY(0)';
                         }, index * 200);
                     }
                     observer.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.3 }); // Trigger when 30% visible
+        }, { threshold: 0.1 });
 
         document.querySelectorAll('.reveal-text').forEach(el => observer.observe(el));
         if (moonScene) observer.observe(moonScene);
+
+        // Persistent Background Music
+        const bgm = new Audio('_Kadal_Alai_Pola_Tamil_Song_Ringtone_(by Fringster.com).mp3');
+        bgm.loop = true;
+        bgm.volume = 0.5;
+
+        if (sessionStorage.getItem('bgm_playing') === 'true') {
+            const savedTime = sessionStorage.getItem('bgm_time');
+            if (savedTime) {
+                bgm.currentTime = parseFloat(savedTime);
+            }
+            bgm.play().catch(e => console.log("Audio play failed:", e));
+        }
+
+        setInterval(() => {
+            if (!bgm.paused) {
+                sessionStorage.setItem('bgm_time', bgm.currentTime);
+            }
+        }, 1000);
     </script>
 </body>
 

@@ -217,28 +217,44 @@
         createRain();
 
         // Impact Animation Sequencing
-        setTimeout(() => {
-            const scene = document.getElementById('arrow-scene');
-            const flash = document.getElementById('impact-flash');
-
-            if (scene && flash) {
-                // Trigger shake and flash exactly when "And it hit" appears
-                scene.classList.add('impact-shake');
-                flash.classList.add('flash-active');
-
-                // Intense rain flicker
-                if (rainContainer) {
-                    rainContainer.style.opacity = '0.2';
-                    setTimeout(() => rainContainer.style.opacity = '1', 100);
-                }
-            }
-        }, 3400); // Sync with 'And it hit' roughly
+        // Impact Animation Sequencing - DISABLED due to mobile issues
+        // setTimeout(() => {
+        //     const scene = document.getElementById('arrow-scene');
+        //     const flash = document.getElementById('impact-flash');
+        //     if (scene && flash) {
+        //         scene.classList.add('impact-shake');
+        //         flash.classList.add('flash-active');
+        //         if (rainContainer) {
+        //             rainContainer.style.opacity = '0.2';
+        //             setTimeout(() => rainContainer.style.opacity = '1', 100);
+        //         }
+        //     }
+        // }, 3400);
 
         // Scroll to button when it appears
         setTimeout(() => {
             const btnContainer = document.getElementById('next-btn-container');
             btnContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }, 5500);
+
+        // Persistent Background Music
+        const bgm = new Audio('_Kadal_Alai_Pola_Tamil_Song_Ringtone_(by Fringster.com).mp3');
+        bgm.loop = true;
+        bgm.volume = 0.5;
+
+        if (sessionStorage.getItem('bgm_playing') === 'true') {
+            const savedTime = sessionStorage.getItem('bgm_time');
+            if (savedTime) {
+                bgm.currentTime = parseFloat(savedTime);
+            }
+            bgm.play().catch(e => console.log("Audio play failed:", e));
+        }
+
+        setInterval(() => {
+            if (!bgm.paused) {
+                sessionStorage.setItem('bgm_time', bgm.currentTime);
+            }
+        }, 1000);
     </script>
 </body>
 

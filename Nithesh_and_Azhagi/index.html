@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nithesh & Azhagi</title>
+    <title>Our Story</title>
     <!-- Google Fonts -->
     <link
         href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Cinzel:wght@400;600&display=swap"
@@ -209,7 +209,7 @@
     <canvas id="star-canvas"></canvas>
 
     <div class="content-wrapper">
-        <svg class="svg-heart" viewBox="0 0 32 29.6" onclick="enterStory()">
+        <svg class="svg-heart" viewBox="-2 -2 36 33.6" onclick="enterStory()">
             <path class="heart-path" d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2
             c6.1-9.3,16-11.9,16-21.2C32,3.8,28.2,0,23.6,0z" />
         </svg>
@@ -338,12 +338,29 @@
         });
 
         function enterStory() {
+            // Audio Logic
+            const bgm = new Audio('_Kadal_Alai_Pola_Tamil_Song_Ringtone_(by Fringster.com).mp3');
+            bgm.loop = true;
+            bgm.volume = 0.5;
+
+            bgm.play().then(() => {
+                sessionStorage.setItem('bgm_playing', 'true');
+            }).catch(e => console.log("Audio play failed:", e));
+
+            // Continuously save time
+            setInterval(() => {
+                sessionStorage.setItem('bgm_time', bgm.currentTime);
+            }, 1000);
+
             document.getElementById('transition-curtain').classList.add('active');
             setTimeout(() => {
-                window.location.href = "chapter1.html";
+                window.location.href = "chapter_game.html";
             }, 1000);
         }
     </script>
+</body>
+
+
 </body>
 
 </html>

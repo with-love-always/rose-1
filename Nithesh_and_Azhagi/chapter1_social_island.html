@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 1: Social Island</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Outfit:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.95), rgba(118, 75, 162, 0.95)),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="pattern" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23pattern)"/></svg>');
+            background-color: #5a4a7f;
+            background-blend-mode: overlay;
+            font-family: 'Outfit', sans-serif;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 30%, rgba(255, 182, 193, 0.15), transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(173, 216, 230, 0.15), transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.05), transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+
+
+        /* Floating Elements */
+        .floating-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .floating-icon {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.4;
+            animation: floatUp 25s linear infinite;
+            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(110vh) rotate(0deg);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 0.5;
+            }
+
+            90% {
+                opacity: 0.5;
+            }
+
+            100% {
+                transform: translateY(-10vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Content Styling */
+        .main-content {
+            position: relative;
+            z-index: 10;
+            max-width: 650px;
+            padding: 40px 20px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 2px;
+            opacity: 0;
+            animation: fadeIn 2s ease-out forwards 0.5s;
+            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3),
+                0 0 40px rgba(255, 182, 193, 0.4);
+            margin-bottom: 3rem;
+        }
+
+        .game-frame {
+            position: relative;
+            margin: 3rem auto;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2),
+                0 0 60px rgba(255, 182, 193, 0.2),
+                inset 0 0 20px rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            opacity: 0;
+            animation: fadeIn 2s ease-out forwards 1.5s;
+        }
+
+        .game-frame img,
+        .game-frame video {
+            width: 100%;
+            border-radius: 15px;
+            display: block;
+        }
+
+        @keyframes glow {
+
+            0%,
+            100% {
+                box-shadow: 0 0 40px rgba(255, 255, 255, 0.3),
+                    0 0 80px rgba(102, 126, 234, 0.4),
+                    inset 0 0 20px rgba(255, 255, 255, 0.1);
+            }
+
+            50% {
+                box-shadow: 0 0 60px rgba(255, 255, 255, 0.5),
+                    0 0 120px rgba(240, 147, 251, 0.6),
+                    inset 0 0 30px rgba(255, 255, 255, 0.2);
+            }
+        }
+
+        .game-frame img,
+        .game-frame video {
+            width: 100%;
+            border-radius: 15px;
+            display: block;
+        }
+
+        .story-text p {
+            font-size: 1.3rem;
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.95);
+            line-height: 2;
+            margin-bottom: 1.8rem;
+            opacity: 0;
+            animation: slideUp 1s ease-out forwards;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            font-family: 'Outfit', sans-serif;
+            letter-spacing: 0.5px;
+        }
+
+        .highlight-pink {
+            color: #ffb6c1;
+            font-weight: 600;
+            font-size: 1.5rem;
+            font-family: 'Dancing Script', cursive;
+            text-shadow: 0 0 15px rgba(255, 182, 193, 0.6);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .btn-island {
+            background: linear-gradient(45deg, #ff6b9d, #c44569);
+            color: #fff;
+            font-family: 'Outfit', sans-serif;
+            letter-spacing: 1px;
+            border: none;
+            box-shadow: 0 5px 15px rgba(196, 69, 105, 0.4);
+        }
+
+        .btn-island:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(196, 69, 105, 0.6);
+        }
+    </style>
+</head>
+
+<body class="page-game">
+
+    <div class="floating-container" id="floaters"></div>
+
+    <div class="main-content">
+        <h1>Social Island</h1>
+
+        <div class="story-text" style="animation-delay: 1s;">
+            <p style="animation-delay: 1s;">It wasn't a battlefield...</p>
+        </div>
+
+        <div class="game-frame">
+            <!-- User can add game.jpeg, game.jpg, game.png, or game.mp4 -->
+            <video id="gameVideo" autoplay loop muted playsinline
+                style="width: 100%; border-radius: 10px; display: none;">
+                <source src="game.mp4" type="video/mp4">
+            </video>
+            <img id="gameImage" src="game.jpeg" alt="Social Island Meeting"
+                onerror="this.style.display='none'; document.getElementById('gamePlaceholder').style.display='block';">
+            <div id="gamePlaceholder"
+                style="display: none; padding: 60px 20px; background: rgba(255,255,255,0.1); border-radius: 10px; text-align: center;">
+                <p style="font-size: 3rem; margin-bottom: 10px;">🏝️</p>
+                <p style="color: rgba(255,255,255,0.7);">Add game.jpeg or game.mp4</p>
+                <p style="color: rgba(255,255,255,0.5); font-size: 0.9rem;">Social Island screenshot or video</p>
+            </div>
+        </div>
+
+        <div class="story-text">
+            <p style="animation-delay: 2.5s;">In a world of pixels and dreams...</p>
+            <p style="animation-delay: 3s;">There was <span class="highlight-pink">Social Island</span>.</p>
+            <p style="animation-delay: 3.5s;">A place where strangers became friends.</p>
+            <p style="animation-delay: 4s;">You were there, among many.</p>
+            <p style="animation-delay: 4.5s;">Ignoring the noise around you.</p>
+            <p style="animation-delay: 5s;">Until...</p>
+            <p style="animation-delay: 5.5s; font-family: 'Dancing Script'; font-size: 1.8rem; color: #ffd700;">I walked
+                up to you and sent a simple request.</p>
+            <p style="animation-delay: 6s; color: rgba(255,255,255,0.7); font-size: 1.1rem;">You clicked "Accept".</p>
+            <p style="animation-delay: 6.5s; font-family: 'Dancing Script'; font-size: 1.3rem; color: #ffb6c1;">And
+                everything changed.</p>
+        </div>
+
+        <div style="margin-top: 40px; opacity: 0; animation: fadeIn 2s ease-out forwards 6s;">
+            <a href="chapter2_proposal.html" class="btn btn-island">Next: The Proposal →</a>
+        </div>
+    </div>
+
+    <script>
+        // Check for video and display if available
+        const gameVideo = document.getElementById('gameVideo');
+        const gameImage = document.getElementById('gameImage');
+
+        gameVideo.addEventListener('loadeddata', function () {
+            gameVideo.style.display = 'block';
+            gameImage.style.display = 'none';
+            document.getElementById('gamePlaceholder').style.display = 'none';
+        });
+
+        gameVideo.load(); // Try to load video
+
+        // Generate floating icons
+        const floatContainer = document.getElementById('floaters');
+        const icons = ['💫', '✨', '💝', '🌸', '🦋', '🌺'];
+
+        for (let i = 0; i < 20; i++) {
+            const icon = document.createElement('div');
+            icon.classList.add('floating-icon');
+            icon.innerText = icons[Math.floor(Math.random() * icons.length)];
+            icon.style.left = Math.random() * 100 + '%';
+            icon.style.animationDelay = Math.random() * 10 + 's';
+            icon.style.fontSize = (Math.random() * 15 + 15) + 'px';
+            floatContainer.appendChild(icon);
+        }
+
+        // Persistent Background Music
+        const bgm = new Audio('_Kadal_Alai_Pola_Tamil_Song_Ringtone_(by Fringster.com).mp3');
+        bgm.loop = true;
+        bgm.volume = 0.5;
+
+        if (sessionStorage.getItem('bgm_playing') === 'true') {
+            const savedTime = sessionStorage.getItem('bgm_time');
+            if (savedTime) {
+                bgm.currentTime = parseFloat(savedTime);
+            }
+            bgm.play().catch(e => console.log("Audio play failed:", e));
+        }
+
+        setInterval(() => {
+            if (!bgm.paused) {
+                sessionStorage.setItem('bgm_time', bgm.currentTime);
+            }
+        }, 1000);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 6: December with Mother</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Outfit:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            font-family: 'Outfit', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Snow Effect */
+        .snow-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .snowflake {
+            position: absolute;
+            color: #fff;
+            font-size: 1em;
+            font-family: Arial, sans-serif;
+            text-shadow: 0 0 5px #000;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-10vh) translateX(0);
+            }
+
+            100% {
+                transform: translateY(110vh) translateX(20px);
+            }
+        }
+
+        /* Main Content */
+        .main-content {
+            position: relative;
+            z-index: 10;
+            max-width: 900px;
+            padding: 20px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 0.5rem;
+            opacity: 0;
+            animation: fadeIn 2s ease-out forwards 0.5s;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #a4b0be;
+            font-size: 1rem;
+            letter-spacing: 2px;
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: fadeIn 2s ease-out forwards 1s;
+        }
+
+        /* Gallery Container */
+        .gallery-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            opacity: 0;
+            animation: fadeIn 2s ease-out forwards 1.5s;
+        }
+
+        /* Main Image Display */
+        .main-image-container {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: rgba(255, 255, 255, 0.05);
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .main-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        /* Navigation Arrows */
+        .nav-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: #fff;
+            font-size: 2rem;
+            padding: 15px 20px;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: all 0.3s;
+            z-index: 10;
+        }
+
+        .nav-arrow:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .nav-arrow.left {
+            left: 10px;
+        }
+
+        .nav-arrow.right {
+            right: 10px;
+        }
+
+        /* Thumbnail Strip */
+        .thumbnail-strip {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            overflow-x: auto;
+            padding: 10px 0;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+        }
+
+        .thumbnail-strip::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .thumbnail-strip::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .thumbnail-strip::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+        }
+
+        .thumbnail {
+            min-width: 120px;
+            height: 80px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s;
+            opacity: 0.6;
+        }
+
+        .thumbnail:hover {
+            opacity: 1;
+            transform: scale(1.05);
+            border-color: #ffd700;
+        }
+
+        .thumbnail.active {
+            opacity: 1;
+            border-color: #ffd700;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Story Text */
+        .story-text {
+            text-align: center;
+            margin: 3rem 0;
+        }
+
+        .story-text p {
+            color: #e0e0e0;
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeIn 2s ease-out forwards;
+        }
+
+        .highlight-december {
+            color: #87ceeb;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.5rem;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .date-display {
+                font-size: 0.9rem;
+                letter-spacing: 2px;
+            }
+
+            .gallery-container {
+                max-width: 100%;
+                padding: 10px;
+            }
+
+            .main-image-container {
+                height: 300px;
+                border-radius: 10px;
+            }
+
+            .nav-arrow {
+                font-size: 1.5rem;
+                padding: 10px 15px;
+            }
+
+            .nav-arrow.left {
+                left: 5px;
+            }
+
+            .nav-arrow.right {
+                right: 5px;
+            }
+
+            .thumbnail {
+                min-width: 60px;
+                height: 60px;
+            }
+
+            .story-text p {
+                font-size: 1rem;
+            }
+
+            .highlight-december {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .main-image-container {
+                height: 250px;
+            }
+
+            .nav-arrow {
+                font-size: 1.2rem;
+                padding: 8px 12px;
+            }
+
+            .thumbnail {
+                min-width: 50px;
+                height: 50px;
+            }
+
+            .story-text p {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+
+<body class="page-chapter6">
+
+    <div class="snow-container" id="snow"></div>
+
+    <div class="main-content">
+        <h1>December with Mother</h1>
+        <p class="subtitle">PRECIOUS MOMENTS ❄️</p>
+
+        <div class="gallery-container">
+            <div class="main-image-container">
+                <!-- Media will be dynamically inserted here -->
+                <button class="nav-arrow left" onclick="previousImage()">‹</button>
+                <button class="nav-arrow right" onclick="nextImage()">›</button>
+            </div>
+
+            <div class="thumbnail-strip" id="thumbnailStrip">
+                <!-- Thumbnails will be generated here -->
+            </div>
+        </div>
+
+        <div class="story-text">
+            <p style="animation-delay: 2s;">A December to remember.</p>
+            <p style="animation-delay: 2.5s;">Meeting the one who matters most.</p>
+            <p style="animation-delay: 3s;" class="highlight-december">Your mother's blessing.</p>
+        </div>
+
+        <div style="text-align: center; margin-top: 3rem; opacity: 0; animation: fadeIn 2s ease-out forwards 3.5s;">
+            <a href="final.html" class="btn">The Question →</a>
+        </div>
+    </div>
+
+    <script>
+        // Snow Generation
+        const snowContainer = document.getElementById('snow');
+        function createSnow() {
+            const flake = document.createElement('div');
+            flake.innerText = '❄';
+            flake.classList.add('snowflake');
+            flake.style.left = Math.random() * 100 + '%';
+            flake.style.opacity = Math.random();
+            flake.style.fontSize = (Math.random() * 10 + 10) + 'px';
+
+            const duration = Math.random() * 5 + 5;
+            flake.style.animationDuration = duration + 's';
+
+            snowContainer.appendChild(flake);
+
+            setTimeout(() => {
+                flake.remove();
+            }, duration * 1000);
+        }
+        setInterval(createSnow, 300);
+
+        // Gallery Logic - Mixed Media (1-3: images, 4-6: videos)
+        let currentIndex = 0;
+        const mediaItems = [];
+
+        // Define media files with type
+        const mediaFiles = [
+            { src: 'DECEMBER SOURCES/1.jpg', type: 'image', alt: '1. First Moment' },
+            { src: 'DECEMBER SOURCES/1.jpeg', type: 'image', alt: '1. First Moment' },
+            { src: 'DECEMBER SOURCES/1.png', type: 'image', alt: '1. First Moment' },
+            { src: 'DECEMBER SOURCES/2.jpg', type: 'image', alt: '2. The Meeting' },
+            { src: 'DECEMBER SOURCES/2.jpeg', type: 'image', alt: '2. The Meeting' },
+            { src: 'DECEMBER SOURCES/2.png', type: 'image', alt: '2. The Meeting' },
+            { src: 'DECEMBER SOURCES/3.jpg', type: 'image', alt: '3. With Mother' },
+            { src: 'DECEMBER SOURCES/3.jpeg', type: 'image', alt: '3. With Mother' },
+            { src: 'DECEMBER SOURCES/3.png', type: 'image', alt: '3. With Mother' },
+            { src: 'DECEMBER SOURCES/4.mp4', type: 'video', alt: '4. Sweet Memories' },
+            { src: 'DECEMBER SOURCES/5.mp4', type: 'video', alt: '5. December Joy' },
+            { src: 'DECEMBER SOURCES/6.mp4', type: 'video', alt: '6. Together' },
+        ];
+
+        // Try to load media
+        let loadedItems = {};
+        mediaFiles.forEach(item => {
+            if (item.type === 'image') {
+                const img = new Image();
+                img.onload = function () {
+                    const key = item.alt.split('.')[0];
+                    if (!loadedItems[key]) {
+                        loadedItems[key] = item;
+                        mediaItems.push(item);
+                        mediaItems.sort((a, b) => parseInt(a.alt) - parseInt(b.alt));
+                        if (mediaItems.length === 1) {
+                            showMedia(0);
+                        }
+                        generateThumbnails();
+                    }
+                };
+                img.src = item.src;
+            } else if (item.type === 'video') {
+                const video = document.createElement('video');
+                video.onloadeddata = function () {
+                    const key = item.alt.split('.')[0];
+                    if (!loadedItems[key]) {
+                        loadedItems[key] = item;
+                        mediaItems.push(item);
+                        mediaItems.sort((a, b) => parseInt(a.alt) - parseInt(b.alt));
+                        if (mediaItems.length === 1) {
+                            showMedia(0);
+                        }
+                        generateThumbnails();
+                    }
+                };
+                video.src = item.src;
+            }
+        });
+
+        // If no media found, use numbered placeholders with flow
+        setTimeout(() => {
+            if (mediaItems.length === 0) {
+                mediaItems.push(
+                    { src: 'https://placehold.co/800x450/1a1a2e/ffd700?text=1.+First+Moment+(Add+1.jpg)', type: 'image', alt: '1. First Moment' },
+                    { src: 'https://placehold.co/800x450/1a1a2e/87ceeb?text=2.+The+Meeting+(Add+2.jpg)', type: 'image', alt: '2. The Meeting' },
+                    { src: 'https://placehold.co/800x450/1a1a2e/ff6b9d?text=3.+With+Mother+(Add+3.jpg)', type: 'image', alt: '3. With Mother' },
+                    { src: 'https://placehold.co/800x450/1a1a2e/98fb98?text=4.+Sweet+Memories+(Add+4.mp4)', type: 'image', alt: '4. Sweet Memories (VIDEO)' },
+                    { src: 'https://placehold.co/800x450/1a1a2e/dda0dd?text=5.+December+Joy+(Add+5.mp4)', type: 'image', alt: '5. December Joy (VIDEO)' },
+                    { src: 'https://placehold.co/800x450/1a1a2e/f0e68c?text=6.+Together+(Add+6.mp4)', type: 'image', alt: '6. Together (VIDEO)' }
+                );
+                showMedia(0);
+                generateThumbnails();
+            }
+        }, 1000);
+
+        function showMedia(index) {
+            if (mediaItems.length === 0) return;
+            currentIndex = index;
+            const container = document.querySelector('.main-image-container');
+            const item = mediaItems[currentIndex];
+
+            // Clear existing content
+            const existingImg = document.getElementById('mainImage');
+            const existingVideo = document.getElementById('mainVideo');
+            if (existingImg) existingImg.remove();
+            if (existingVideo) existingVideo.remove();
+
+            // Add navigation arrows back
+            const leftArrow = container.querySelector('.nav-arrow.left');
+            const rightArrow = container.querySelector('.nav-arrow.right');
+
+            if (item.type === 'image') {
+                const img = document.createElement('img');
+                img.id = 'mainImage';
+                img.className = 'main-image';
+                img.src = item.src;
+                img.alt = item.alt;
+                container.insertBefore(img, leftArrow);
+            } else if (item.type === 'video') {
+                const video = document.createElement('video');
+                video.id = 'mainVideo';
+                video.className = 'main-image';
+                video.src = item.src;
+                video.autoplay = true;
+                video.loop = true;
+                video.muted = true;
+                video.playsInline = true;
+                video.controls = true;
+                video.style.objectFit = 'contain';
+                container.insertBefore(video, leftArrow);
+            }
+
+            // Update active thumbnail
+            document.querySelectorAll('.thumbnail').forEach((thumb, i) => {
+                thumb.classList.toggle('active', i === currentIndex);
+            });
+        }
+
+        function generateThumbnails() {
+            const strip = document.getElementById('thumbnailStrip');
+            strip.innerHTML = '';
+            mediaItems.forEach((item, index) => {
+                const thumb = document.createElement('div');
+                thumb.className = 'thumbnail' + (index === 0 ? ' active' : '');
+
+                if (item.type === 'image') {
+                    thumb.innerHTML = `<img src="${item.src}" alt="${item.alt}">`;
+                } else {
+                    // For video thumbnails, show a play icon overlay
+                    thumb.innerHTML = `
+                        <video src="${item.src}" style="width: 100%; height: 100%; object-fit: cover;" muted></video>
+                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 2rem; color: white; text-shadow: 0 0 10px black;">▶</div>
+                    `;
+                    thumb.style.position = 'relative';
+                }
+
+                thumb.onclick = () => showMedia(index);
+                strip.appendChild(thumb);
+            });
+        }
+
+        function nextImage() {
+            if (mediaItems.length === 0) return;
+            currentIndex = (currentIndex + 1) % mediaItems.length;
+            showMedia(currentIndex);
+        }
+
+        function previousImage() {
+            if (mediaItems.length === 0) return;
+            currentIndex = (currentIndex - 1 + mediaItems.length) % mediaItems.length;
+            showMedia(currentIndex);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') previousImage();
+            if (e.key === 'ArrowRight') nextImage();
+        });
+
+        // Persistent Background Music
+        const bgm = new Audio('_Kadal_Alai_Pola_Tamil_Song_Ringtone_(by Fringster.com).mp3');
+        bgm.loop = true;
+        bgm.volume = 0.5;
+
+        if (sessionStorage.getItem('bgm_playing') === 'true') {
+            const savedTime = sessionStorage.getItem('bgm_time');
+            if (savedTime) {
+                bgm.currentTime = parseFloat(savedTime);
+            }
+            bgm.play().catch(e => console.log("Audio play failed:", e));
+        }
+
+        setInterval(() => {
+            if (!bgm.paused) {
+                sessionStorage.setItem('bgm_time', bgm.currentTime);
+            }
+        }, 1000);
+    </script>
+</body>
+
+</html>

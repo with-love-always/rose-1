@@ -1,0 +1,693 @@
+/* ===================================
+   CSS Variables & Reset
+   =================================== */
+:root {
+    /* Colors */
+    --primary-purple: #6B46C1;
+    --midnight-blue: #1E3A8A;
+    --rose-gold: #E8B4B8;
+    --soft-pink: #FFC0CB;
+    --dark-bg-1: #0F172A;
+    --dark-bg-2: #1E1B4B;
+    --text-white: #F8FAFC;
+    --text-gray: #E2E8F0;
+    
+    /* Fonts */
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'Poppins', sans-serif;
+    --font-accent: 'Dancing Script', cursive;
+    
+    /* Spacing */
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 2rem;
+    --spacing-lg: 3rem;
+    --spacing-xl: 4rem;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+}
+
+body {
+    font-family: var(--font-body);
+    color: var(--text-white);
+    background: linear-gradient(135deg, var(--dark-bg-1) 0%, var(--dark-bg-2) 100%);
+    overflow-x: hidden;
+    line-height: 1.6;
+}
+
+/* ===================================
+   Particle System
+   =================================== */
+.particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.particle {
+    position: absolute;
+    font-size: clamp(1rem, 2vw, 1.5rem);
+    opacity: 0;
+    animation: float 8s infinite ease-in-out;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.8;
+    }
+    90% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* ===================================
+   Section Layout
+   =================================== */
+.section {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-md);
+    position: relative;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+}
+
+.section.active {
+    opacity: 1;
+}
+
+.section:not(.active) {
+    position: absolute;
+    pointer-events: none;
+}
+
+.container {
+    max-width: 1200px;
+    width: 100%;
+    margin: auto;
+    padding: var(--spacing-sm);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ===================================
+   Typography
+   =================================== */
+h1, h2, h3 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+}
+
+.section-title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+    background: linear-gradient(135deg, var(--rose-gold), var(--soft-pink));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.poetic-text {
+    font-family: var(--font-accent);
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    text-align: center;
+    line-height: 1.8;
+    color: var(--text-white);
+}
+
+/* ===================================
+   Glassmorphism Cards
+   =================================== */
+.glass-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: var(--spacing-md);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.glass-card:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(232, 180, 184, 0.2);
+}
+
+/* ===================================
+   Section 1: Landing
+   =================================== */
+.landing {
+    background: linear-gradient(135deg, var(--dark-bg-1) 0%, var(--dark-bg-2) 50%, #2D1B69 100%);
+    text-align: center;
+}
+
+.typewriter {
+    font-size: clamp(2rem, 6vw, 4rem);
+    margin-bottom: var(--spacing-md);
+    overflow: hidden;
+    border-right: 3px solid var(--rose-gold);
+    white-space: nowrap;
+    animation: typing 3s steps(40) 4s forwards, blink 0.75s step-end infinite 4s;
+    max-width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    opacity: 0;
+}
+
+@keyframes typing {
+    from { 
+        width: 0;
+        opacity: 1;
+    }
+    to { 
+        width: 100%;
+        opacity: 1;
+    }
+}
+
+@keyframes blink {
+    50% { border-color: transparent; }
+}
+
+.subtitle {
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    color: var(--text-gray);
+    font-family: var(--font-accent);
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.subtitle:hover {
+    color: var(--rose-gold);
+}
+
+.fade-in-up {
+    animation: fadeInUp 1s ease 7s forwards;
+    opacity: 0;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+}
+
+.scroll-indicator {
+    margin-top: var(--spacing-xl);
+    font-size: 2rem;
+    animation: bounce 2s infinite;
+    cursor: pointer;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-20px); }
+    60% { transform: translateY(-10px); }
+}
+
+/* ===================================
+   Next Chapter Button
+   =================================== */
+.next-chapter-btn {
+    margin-top: auto;
+    padding: 1rem 2.5rem;
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    font-family: var(--font-body);
+    font-weight: 600;
+    color: var(--text-white);
+    background: linear-gradient(135deg, var(--primary-purple), var(--midnight-blue));
+    border: 2px solid var(--rose-gold);
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(107, 70, 193, 0.4);
+    position: relative;
+    overflow: hidden;
+    z-index: 10;
+    align-self: center;
+}
+
+.next-chapter-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(232, 180, 184, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.next-chapter-btn:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.next-chapter-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(232, 180, 184, 0.5);
+    border-color: var(--soft-pink);
+}
+
+.next-chapter-btn:active {
+    transform: translateY(-1px);
+}
+
+.next-chapter-btn span {
+    position: relative;
+    z-index: 1;
+}
+
+/* ===================================
+   Section 2: Green Light
+   =================================== */
+.green-light {
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+/* Traffic Light Styles */
+.traffic-light {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    background: rgba(0, 0, 0, 0.5);
+    padding: var(--spacing-md);
+    border-radius: 30px;
+    width: fit-content;
+    margin: 0 auto var(--spacing-lg);
+}
+
+.light {
+    width: clamp(60px, 15vw, 100px);
+    height: clamp(60px, 15vw, 100px);
+    border-radius: 50%;
+    opacity: 0.3; /* Dim by default */
+    background: #444; /* Default dark/off color */
+    transition: all 0.3s ease;
+    box-shadow: none;
+}
+
+.light.red.active { 
+    background: #EF4444;
+    opacity: 1;
+    box-shadow: 0 0 30px #EF4444, 0 0 60px rgba(239, 68, 68, 0.5);
+}
+
+.light.yellow.active { 
+    background: #F59E0B;
+    opacity: 1;
+    box-shadow: 0 0 30px #FBBF24, 0 0 60px rgba(251, 191, 36, 0.5);
+}
+
+.light.green.active { 
+    background: #10B981;
+    opacity: 1;
+    box-shadow: 0 0 30px #10B981, 0 0 60px rgba(16, 185, 129, 0.5);
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.8; }
+}
+
+.click-hint {
+    display: block;
+    text-align: center;
+    margin-top: var(--spacing-sm);
+    font-size: 0.9rem;
+    color: var(--text-gray);
+    opacity: 0.7;
+}
+
+/* ===================================
+   Section 3: Timeline
+   =================================== */
+.timeline-section {
+    padding: var(--spacing-xl) var(--spacing-sm);
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+}
+
+.timeline-section .container {
+    justify-content: flex-start;
+    padding-top: var(--spacing-md);
+    padding-bottom: var(--spacing-md);
+}
+
+.timeline {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: var(--spacing-md) 0;
+}
+
+.timeline-line {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 3px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--primary-purple), var(--rose-gold));
+    opacity: 0.5;
+}
+
+.timeline-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--spacing-lg);
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.timeline-item.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.timeline-icon {
+    font-size: clamp(2rem, 5vw, 3rem);
+    min-width: clamp(60px, 15vw, 80px);
+    height: clamp(60px, 15vw, 80px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(107, 70, 193, 0.2);
+    border-radius: 50%;
+    border: 3px solid var(--primary-purple);
+    position: relative;
+    z-index: 10;
+    margin: 0 var(--spacing-sm);
+}
+
+.timeline-card {
+    flex: 1;
+    text-align: left;
+}
+
+.timeline-date {
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
+    color: var(--rose-gold);
+    font-weight: 600;
+    margin-bottom: var(--spacing-xs);
+}
+
+.timeline-card h3 {
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    margin-bottom: var(--spacing-xs);
+    color: var(--text-white);
+}
+
+.timeline-description {
+    font-family: var(--font-accent);
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
+    color: var(--text-gray);
+}
+
+/* Mobile Timeline Layout */
+@media (max-width: 768px) {
+    .timeline-line {
+        left: 30px;
+    }
+    
+    .timeline-item {
+        flex-direction: row;
+        padding-left: 0;
+    }
+    
+    .timeline-icon {
+        margin-left: 0;
+    }
+}
+
+/* ===================================
+   Section 4: Cruising
+   =================================== */
+.cruising {
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+.road-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto var(--spacing-lg);
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+    border-radius: 20px;
+}
+
+.road {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+    position: relative;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.road-line {
+    width: 8px;
+    height: 60px;
+    background: white;
+    border-radius: 4px;
+    animation: roadMove 1.5s linear infinite;
+    opacity: 0.7;
+}
+
+.road-line:nth-child(2) { animation-delay: 0.5s; }
+.road-line:nth-child(3) { animation-delay: 1s; }
+
+@keyframes roadMove {
+    0% { transform: translateY(-100px); }
+    100% { transform: translateY(300px); }
+}
+
+.car {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: clamp(3rem, 8vw, 5rem);
+    animation: carBounce 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes carBounce {
+    from { transform: translateX(-50%) translateY(0); }
+    to { transform: translateX(-50%) translateY(-10px); }
+}
+
+/* ===================================
+   Section 5: GPS
+   =================================== */
+.gps-section {
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+.gps-container {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.gps-screen {
+    padding: var(--spacing-md);
+}
+
+.gps-header {
+    text-align: center;
+    margin-bottom: var(--spacing-sm);
+}
+
+.gps-status {
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
+    color: var(--rose-gold);
+    font-weight: 600;
+}
+
+.route-map {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.heart-marker {
+    animation: heartBeat 1.5s infinite;
+}
+
+@keyframes heartBeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+/* Stationary swan icon */
+.swan-icon {
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+/* Stationary heart icon */
+.heart-icon {
+    filter: drop-shadow(0 2px 8px rgba(232, 180, 184, 0.6));
+}
+
+/* Static route labels (always visible) */
+.route-label-static {
+    font-family: var(--font-body);
+    font-weight: 600;
+    opacity: 1;
+}
+
+/* ===================================
+   Section 6: Final Destination
+   =================================== */
+.final-destination {
+    flex-direction: column;
+    padding: var(--spacing-xl) var(--spacing-sm);
+    background: linear-gradient(135deg, #1E1B4B 0%, #2D1B69 50%, #4C1D95 100%);
+}
+
+.photo-frame {
+    position: relative;
+    max-width: 500px;
+    width: 100%;
+    margin: 0 auto var(--spacing-lg);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(232, 180, 184, 0.3);
+}
+
+.couple-photo {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 20px;
+}
+
+.photo-glow {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(232, 180, 184, 0.3) 0%, transparent 70%);
+    animation: rotate 10s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.confession-card {
+    max-width: 800px;
+    margin: 0 auto var(--spacing-lg);
+    text-align: center;
+}
+
+.confession-text {
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    line-height: 1.8;
+    color: var(--text-white);
+    white-space: pre-line;
+}
+
+.final-message {
+    max-width: 700px;
+    margin: var(--spacing-xl) auto;
+    text-align: center;
+}
+
+.poetic-final {
+    font-family: var(--font-accent);
+    font-size: clamp(1.3rem, 3.5vw, 2rem);
+    line-height: 2;
+    color: var(--text-gray);
+}
+
+.valentine-signature {
+    text-align: center;
+    margin-top: var(--spacing-xl);
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-family: var(--font-accent);
+    color: var(--rose-gold);
+    animation: glow 2s ease-in-out infinite;
+}
+
+@keyframes glow {
+    0%, 100% { text-shadow: 0 0 10px var(--rose-gold); }
+    50% { text-shadow: 0 0 20px var(--rose-gold), 0 0 30px var(--soft-pink); }
+}
+
+/* ===================================
+   Responsive Design
+   =================================== */
+@media (max-width: 768px) {
+    .section {
+        padding: var(--spacing-sm);
+    }
+    
+    .typewriter {
+        white-space: normal;
+        border-right: none;
+        animation: fadeInUp 1s ease forwards;
+    }
+    
+    .timeline-item {
+        margin-bottom: var(--spacing-md);
+    }
+}
+
+@media (max-width: 480px) {
+    :root {
+        --spacing-lg: 2rem;
+        --spacing-xl: 2.5rem;
+    }
+    
+    .glass-card {
+        padding: var(--spacing-sm);
+    }
+}

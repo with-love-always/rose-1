@@ -1,0 +1,819 @@
+:root {
+    --bg-dark: #050510;
+    --bg-darker: #020208;
+    --neon-red: #ff3333;
+    --neon-cyan: #00ffff;
+    --neon-pink: #ff00ff;
+    --neon-yellow: #ffff00;
+    --neon-white: #e0e0e0;
+    --neon-blue: #4d4dff;
+    --font-main: 'Exo 2', 'Montserrat', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--font-main);
+}
+
+/* Smooth scrolling and reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--neon-white);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+}
+
+/* ========================================
+   ANIMATED CITY BACKGROUND - PARALLAX
+   ======================================== */
+.city-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    overflow: hidden;
+    background: linear-gradient(to bottom, #0a0a1a 0%, #1a0a2e 50%, #2a1a3e 100%);
+}
+
+.stars {
+    position: absolute;
+    width: 200%;
+    height: 100%;
+    background-image: 
+        radial-gradient(2px 2px at 20% 30%, white, transparent),
+        radial-gradient(2px 2px at 60% 70%, white, transparent),
+        radial-gradient(1px 1px at 50% 50%, white, transparent),
+        radial-gradient(1px 1px at 80% 10%, white, transparent),
+        radial-gradient(2px 2px at 90% 60%, white, transparent),
+        radial-gradient(1px 1px at 33% 80%, white, transparent);
+    background-size: 200% 200%;
+    background-position: 0% 0%;
+    animation: twinkle 8s ease-in-out infinite;
+    opacity: 0.6;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 0.9; }
+}
+
+.city-layer {
+    position: absolute;
+    bottom: 0;
+    width: 200%;
+    height: 40%;
+    background-repeat: repeat-x;
+    background-position: 0 bottom;
+    will-change: transform;
+}
+
+.layer-1 {
+    height: 25%;
+    background: 
+        linear-gradient(to top, transparent 0%, transparent 40%, rgba(20, 20, 40, 0.8) 41%, rgba(20, 20, 40, 0.8) 45%, transparent 46%),
+        linear-gradient(to top, transparent 0%, transparent 60%, rgba(30, 30, 50, 0.6) 61%, rgba(30, 30, 50, 0.6) 70%, transparent 71%),
+        linear-gradient(to top, transparent 0%, transparent 50%, rgba(25, 25, 45, 0.7) 51%, rgba(25, 25, 45, 0.7) 80%, transparent 81%);
+    background-size: 300px 100%, 200px 100%, 250px 100%;
+    background-position: 0 bottom, 150px bottom, 75px bottom;
+    animation: cityMove1 40s linear infinite;
+    opacity: 0.4;
+    filter: blur(3px);
+}
+
+.layer-2 {
+    height: 35%;
+    background: 
+        linear-gradient(to top, transparent 0%, transparent 30%, rgba(40, 40, 60, 0.9) 31%, rgba(40, 40, 60, 0.9) 60%, transparent 61%),
+        linear-gradient(to top, transparent 0%, transparent 40%, rgba(35, 35, 55, 0.85) 41%, rgba(35, 35, 55, 0.85) 75%, transparent 76%),
+        linear-gradient(to top, transparent 0%, transparent 20%, rgba(45, 45, 65, 0.8) 21%, rgba(45, 45, 65, 0.8) 50%, transparent 51%);
+    background-size: 250px 100%, 180px 100%, 220px 100%;
+    background-position: 0 bottom, 125px bottom, 62px bottom;
+    animation: cityMove2 30s linear infinite;
+    opacity: 0.6;
+    filter: blur(2px);
+}
+
+.layer-3 {
+    height: 45%;
+    background: 
+        linear-gradient(to top, transparent 0%, transparent 20%, rgba(60, 60, 80, 1) 21%, rgba(60, 60, 80, 1) 70%, transparent 71%),
+        linear-gradient(to top, transparent 0%, transparent 35%, rgba(55, 55, 75, 0.95) 36%, rgba(55, 55, 75, 0.95) 85%, transparent 86%),
+        linear-gradient(to top, transparent 0%, transparent 10%, rgba(65, 65, 85, 0.9) 11%, rgba(65, 65, 85, 0.9) 60%, transparent 61%);
+    background-size: 200px 100%, 150px 100%, 180px 100%;
+    background-position: 0 bottom, 100px bottom, 50px bottom;
+    animation: cityMove3 20s linear infinite;
+    opacity: 0.8;
+    filter: blur(1px);
+    box-shadow: 0 -50px 100px rgba(255, 100, 100, 0.1);
+}
+
+@keyframes cityMove1 {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+@keyframes cityMove2 {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+@keyframes cityMove3 {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* ========================================
+   REALISTIC RAIN SYSTEM
+   ======================================== */
+.rain {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2;
+    overflow: hidden;
+}
+
+.rain::before,
+.rain::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(transparent 0%, transparent 50%, rgba(255, 255, 255, 0.3) 50%, rgba(255, 255, 255, 0.3) 51%, transparent 51%),
+        linear-gradient(transparent 0%, transparent 50%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.2) 51%, transparent 51%),
+        linear-gradient(transparent 0%, transparent 50%, rgba(255, 255, 255, 0.25) 50%, rgba(255, 255, 255, 0.25) 51%, transparent 51%);
+    background-size: 1px 50px, 1px 70px, 1px 60px;
+    background-position: 10% 0, 30% 0, 50% 0;
+    animation: rain 1s linear infinite;
+}
+
+.rain::after {
+    background-position: 70% 0, 85% 0, 95% 0;
+    animation-delay: 0.5s;
+}
+
+@keyframes rain {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100%); }
+}
+
+/* ========================================
+   PARTICLE SYSTEM
+   ======================================== */
+.particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+}
+
+/* Particles will be generated via JavaScript */
+
+/* ========================================
+   HEADLIGHT BEAMS
+   ======================================== */
+.headlight-beam {
+    position: fixed;
+    bottom: -100%;
+    width: 150px;
+    height: 200%;
+    background: linear-gradient(to top, 
+        rgba(255, 255, 200, 0.3) 0%, 
+        rgba(255, 255, 200, 0.1) 30%, 
+        transparent 100%);
+    pointer-events: none;
+    z-index: 3;
+    opacity: 0;
+    filter: blur(20px);
+    transform-origin: bottom center;
+    animation: headlightSweep 8s ease-in-out infinite;
+}
+
+.beam-1 {
+    left: 10%;
+    animation-delay: 0s;
+}
+
+.beam-2 {
+    right: 10%;
+    animation-delay: 4s;
+}
+
+@keyframes headlightSweep {
+    0%, 90%, 100% { opacity: 0; transform: rotate(0deg); }
+    10%, 80% { opacity: 0.6; transform: rotate(15deg); }
+    45% { transform: rotate(-15deg); }
+}
+
+/* ========================================
+   ROAD ANIMATION
+   ======================================== */
+.road-lines {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    max-width: 400px;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    perspective: 500px;
+}
+
+.road-line {
+    position: absolute;
+    left: 50%;
+    width: 4px;
+    height: 60px;
+    background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.5), transparent);
+    transform: translateX(-50%);
+    animation: roadMove 2s linear infinite;
+    opacity: 0.4;
+}
+
+.road-line:nth-child(1) { animation-delay: 0s; }
+.road-line:nth-child(2) { animation-delay: 0.66s; }
+.road-line:nth-child(3) { animation-delay: 1.33s; }
+
+@keyframes roadMove {
+    0% { 
+        top: -10%;
+        transform: translateX(-50%) scaleY(0.5);
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.6;
+    }
+    100% { 
+        top: 110%;
+        transform: translateX(-50%) scaleY(1.5);
+        opacity: 0;
+    }
+}
+
+/* ========================================
+   SPEEDOMETER
+   ======================================== */
+.speedometer {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 100px;
+    height: 100px;
+    border: 3px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 
+        0 0 20px rgba(0, 255, 255, 0.3),
+        inset 0 0 20px rgba(0, 0, 0, 0.5);
+    animation: speedometerPulse 2s ease-in-out infinite;
+}
+
+.speed-needle {
+    position: absolute;
+    width: 3px;
+    height: 40px;
+    background: linear-gradient(to top, var(--neon-red), var(--neon-yellow));
+    transform-origin: bottom center;
+    bottom: 50%;
+    left: 50%;
+    margin-left: -1.5px;
+    border-radius: 2px;
+    box-shadow: 0 0 10px var(--neon-red);
+    animation: needleMove 3s ease-in-out infinite;
+}
+
+.speed-value {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--neon-cyan);
+    text-shadow: 0 0 10px var(--neon-cyan);
+    margin-top: 20px;
+}
+
+@keyframes speedometerPulse {
+    0%, 100% { box-shadow: 0 0 20px rgba(0, 255, 255, 0.3), inset 0 0 20px rgba(0, 0, 0, 0.5); }
+    50% { box-shadow: 0 0 30px rgba(0, 255, 255, 0.5), inset 0 0 20px rgba(0, 0, 0, 0.5); }
+}
+
+@keyframes needleMove {
+    0%, 100% { transform: rotate(-45deg); }
+    50% { transform: rotate(45deg); }
+}
+
+/* ========================================
+   CONTAINER & SLIDES
+   ======================================== */
+.container {
+    width: 100%;
+    max-width: 450px;
+    height: 100%;
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    padding: 0 20px;
+}
+
+.slide {
+    position: absolute;
+    inset: 0;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    opacity: 0;
+    transform: scale(0.9) translateY(20px);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+    filter: blur(10px);
+}
+
+.slide.active {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    pointer-events: auto;
+    filter: blur(0);
+}
+
+/* Slide-specific entrance animations */
+.slide:nth-child(odd).active {
+    animation: slideInFromLeft 0.8s ease-out;
+}
+
+.slide:nth-child(even).active {
+    animation: slideInFromRight 0.8s ease-out;
+}
+
+@keyframes slideInFromLeft {
+    0% { opacity: 0; transform: translateX(-50px) scale(0.9); }
+    100% { opacity: 1; transform: translateX(0) scale(1); }
+}
+
+@keyframes slideInFromRight {
+    0% { opacity: 0; transform: translateX(50px) scale(0.9); }
+    100% { opacity: 1; transform: translateX(0) scale(1); }
+}
+
+/* ========================================
+   TYPOGRAPHY & NEON EFFECTS
+   ======================================== */
+.glow-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-shadow: 
+        0 0 10px rgba(255, 255, 255, 0.8),
+        0 0 20px rgba(0, 255, 255, 0.6),
+        0 0 30px rgba(0, 255, 255, 0.4),
+        0 0 40px rgba(0, 255, 255, 0.2);
+    margin-bottom: 20px;
+    animation: glowPulse 2s ease-in-out infinite;
+    background: linear-gradient(45deg, var(--neon-white), var(--neon-cyan), var(--neon-white));
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+@keyframes glowPulse {
+    0%, 100% { 
+        text-shadow: 
+            0 0 10px rgba(255, 255, 255, 0.8),
+            0 0 20px rgba(0, 255, 255, 0.6),
+            0 0 30px rgba(0, 255, 255, 0.4);
+    }
+    50% { 
+        text-shadow: 
+            0 0 20px rgba(255, 255, 255, 1),
+            0 0 30px rgba(0, 255, 255, 0.8),
+            0 0 40px rgba(0, 255, 255, 0.6),
+            0 0 50px rgba(0, 255, 255, 0.4);
+    }
+}
+
+h2 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+    animation: textGlow 3s ease-in-out infinite;
+}
+
+@keyframes textGlow {
+    0%, 100% { text-shadow: 0 0 15px rgba(255, 255, 255, 0.5); }
+    50% { text-shadow: 0 0 25px rgba(255, 255, 255, 0.8); }
+}
+
+p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin: 10px 0;
+    opacity: 0.9;
+}
+
+/* ========================================
+   BUTTONS WITH ADVANCED EFFECTS
+   ======================================== */
+.btn {
+    background: transparent;
+    border: 2px solid var(--neon-white);
+    color: var(--neon-white);
+    padding: 15px 40px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 
+        0 0 10px rgba(255, 255, 255, 0.2),
+        inset 0 0 10px rgba(255, 255, 255, 0.05);
+    margin-top: 30px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.3), transparent);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.btn:hover {
+    background: var(--neon-white);
+    color: var(--bg-dark);
+    box-shadow: 
+        0 0 30px rgba(255, 255, 255, 0.6),
+        0 0 50px rgba(0, 255, 255, 0.4),
+        inset 0 0 20px rgba(255, 255, 255, 0.2);
+    transform: translateY(-3px) scale(1.05);
+    border-color: var(--neon-cyan);
+}
+
+.btn:active {
+    transform: translateY(-1px) scale(1.02);
+}
+
+.btn-dark {
+    border-color: #555;
+    color: #555;
+    box-shadow: 0 0 5px rgba(85, 85, 85, 0.2);
+}
+
+.btn-dark:hover {
+    background: #555;
+    color: var(--neon-white);
+    box-shadow: 0 0 20px rgba(85, 85, 85, 0.5);
+}
+
+.btn-group {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* ========================================
+   DASHBOARD UI - GLASSMORPHISM
+   ======================================== */
+.dashboard-ui {
+    border-top: 2px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    padding: 30px 20px;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(20px);
+    border-radius: 15px;
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        inset 0 0 20px rgba(255, 255, 255, 0.05);
+    animation: dashboardFloat 4s ease-in-out infinite;
+}
+
+@keyframes dashboardFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.hud-display {
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(0, 255, 255, 0.3);
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 
+        0 0 20px rgba(0, 255, 255, 0.2),
+        inset 0 0 20px rgba(0, 0, 0, 0.5);
+    animation: hudPulse 3s ease-in-out infinite;
+}
+
+@keyframes hudPulse {
+    0%, 100% { border-color: rgba(0, 255, 255, 0.3); }
+    50% { border-color: rgba(0, 255, 255, 0.6); }
+}
+
+.status {
+    font-size: 0.7rem;
+    color: #00ff00;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-shadow: 0 0 10px #00ff00;
+    animation: statusBlink 2s ease-in-out infinite;
+}
+
+@keyframes statusBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+
+/* ========================================
+   MIRROR FRAME WITH REFLECTION EFFECT
+   ======================================== */
+.mirror-frame {
+    width: 280px;
+    height: 160px;
+    background: #111;
+    border-radius: 20px;
+    border: 3px solid #333;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 
+        0 10px 40px rgba(0, 0, 0, 0.8),
+        inset 0 0 20px rgba(255, 255, 255, 0.05);
+    animation: mirrorShine 5s ease-in-out infinite;
+}
+
+@keyframes mirrorShine {
+    0%, 100% { box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(255, 255, 255, 0.05); }
+    50% { box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), inset 0 0 30px rgba(255, 255, 255, 0.1); }
+}
+
+.mirror-frame::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+    animation: mirrorReflection 3s linear infinite;
+    pointer-events: none;
+    z-index: 2;
+}
+
+@keyframes mirrorReflection {
+    0% { transform: rotate(0deg) translateX(-100%); }
+    100% { transform: rotate(0deg) translateX(100%); }
+}
+
+.mirror-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.85;
+    transition: all 0.5s ease;
+    filter: brightness(0.9) contrast(1.1);
+}
+
+.mirror-frame:hover img {
+    opacity: 1;
+    transform: scale(1.05);
+    filter: brightness(1) contrast(1.2);
+}
+
+/* ========================================
+   RADIO DISPLAY - RETRO TERMINAL
+   ======================================== */
+.radio-display {
+    font-family: 'Courier New', monospace;
+    color: #00ff00;
+    background: #000;
+    padding: 25px;
+    border: 2px solid #00ff00;
+    border-radius: 10px;
+    width: 90%;
+    min-height: 120px;
+    text-align: left;
+    box-shadow: 
+        0 0 20px rgba(0, 255, 0, 0.3),
+        inset 0 0 30px rgba(0, 255, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+    animation: radioScanline 8s linear infinite;
+}
+
+.radio-display::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: rgba(0, 255, 0, 0.5);
+    animation: scanline 4s linear infinite;
+}
+
+@keyframes scanline {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(120px); }
+}
+
+@keyframes radioScanline {
+    0%, 100% { box-shadow: 0 0 20px rgba(0, 255, 0, 0.3), inset 0 0 30px rgba(0, 255, 0, 0.1); }
+    50% { box-shadow: 0 0 30px rgba(0, 255, 0, 0.5), inset 0 0 40px rgba(0, 255, 0, 0.15); }
+}
+
+#typing-text {
+    line-height: 1.6;
+    white-space: pre-wrap;
+}
+
+/* ========================================
+   TAIL LIGHTS
+   ======================================== */
+.tail-lights {
+    display: flex;
+    gap: 50px;
+    margin-top: 50px;
+}
+
+.light {
+    width: 80px;
+    height: 30px;
+    background: var(--neon-red);
+    border-radius: 5px;
+    box-shadow: 
+        0 0 30px var(--neon-red),
+        0 0 50px rgba(255, 51, 51, 0.5);
+    opacity: 0.8;
+    animation: tailLightPulse 1.5s ease-in-out infinite;
+}
+
+.light:nth-child(2) {
+    animation-delay: 0.75s;
+}
+
+@keyframes tailLightPulse {
+    0%, 100% { 
+        opacity: 0.8;
+        box-shadow: 0 0 30px var(--neon-red), 0 0 50px rgba(255, 51, 51, 0.5);
+    }
+    50% { 
+        opacity: 1;
+        box-shadow: 0 0 50px var(--neon-red), 0 0 80px rgba(255, 51, 51, 0.8);
+    }
+}
+
+/* ========================================
+   MOBILE RESPONSIVE - MOBILE FIRST
+   ======================================== */
+@media (max-width: 480px) {
+    .glow-title {
+        font-size: 2.5rem;
+        letter-spacing: 2px;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+    }
+    
+    p {
+        font-size: 1rem;
+    }
+    
+    .btn {
+        padding: 12px 30px;
+        font-size: 0.9rem;
+    }
+    
+    .mirror-frame {
+        width: 240px;
+        height: 140px;
+    }
+    
+    .speedometer {
+        width: 80px;
+        height: 80px;
+        bottom: 20px;
+        right: 20px;
+    }
+    
+    .speed-needle {
+        height: 30px;
+    }
+    
+    .speed-value {
+        font-size: 1rem;
+    }
+    
+    .dashboard-ui {
+        padding: 20px 15px;
+    }
+    
+    .hud-display {
+        padding: 20px;
+    }
+    
+    .radio-display {
+        padding: 20px;
+        font-size: 0.9rem;
+    }
+    
+    /* Reduce particle count on mobile */
+    .particles {
+        opacity: 0.5;
+    }
+    
+    /* Simplify animations on mobile for performance */
+    .headlight-beam {
+        display: none;
+    }
+    
+    .city-layer {
+        animation-duration: 60s;
+    }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+    .glow-title {
+        font-size: 3rem;
+    }
+    
+    .speedometer {
+        width: 90px;
+        height: 90px;
+    }
+}
+
+/* ========================================
+   ACCESSIBILITY & PERFORMANCE
+   ======================================== */
+@media (prefers-reduced-motion: reduce) {
+    .slide {
+        transition: opacity 0.3s ease;
+    }
+    
+    .slide.active {
+        animation: none;
+    }
+}
+
+/* GPU Acceleration for smooth animations */
+.slide,
+.city-layer,
+.rain,
+.particles,
+.headlight-beam,
+.road-line,
+.speed-needle,
+.btn,
+.dashboard-ui {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}

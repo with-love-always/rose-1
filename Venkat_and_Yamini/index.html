@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Venkat and Yamini</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="floating-elements" id="bgElements"></div>
+    <div class="container">
+        <!-- Slide 1: Intro -->
+        <div class="slide active" id="slide1">
+            <h1>Dreamland</h1>
+            <p>You are a dream come true,<br>and I never want to wake up.</p>
+            <p style="font-family: var(--font-cursive); font-size: 2rem;">FOR YAMINI</p>
+            <button class="btn" onclick="nextSlide()">ENTER DREAM</button>
+        </div>
+
+        <!-- Slide 2: The Question -->
+        <div class="slide" id="slide2">
+            <h1>The Question</h1>
+            <p>Will you make my sweetest dream a reality? Will you be my Valentine?</p>
+            <div style="display: flex; justify-content: center; width: 100%;">
+                <button class="btn" onclick="nextSlide()">YES</button>
+                <button class="btn btn-outline" id="noButton">NO</button>
+            </div>
+        </div>
+
+        <!-- Slide 3: The Poem -->
+        <div class="slide" id="slide3">
+            <h1>Soft Whispers</h1>
+            <p style="font-style: italic;">
+                Like clouds across a summer sky,<br>
+                My love for you is floating high.<br>
+                A gentle breeze, a soft embrace,<br>
+                I find my heaven in your grace.
+            </p>
+            <button class="btn" onclick="nextSlide()">FLOAT ON</button>
+        </div>
+
+        <!-- Slide 4: Photo Reveal -->
+        <div class="slide" id="slide4">
+            <h1>A Soft Memory</h1>
+            <div class="photo-container">
+                <img src="./assets/images/Venkat Chinnam.jpeg" alt="Dreamy Photo"
+                    onerror="this.src='https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=1000&auto=format&fit=crop'">
+            </div>
+            <p>You're the center of my universe.</p>
+            <button class="btn" onclick="nextSlide()">BEYOND</button>
+        </div>
+
+        <!-- Slide 5: The Reason -->
+        <div class="slide" id="slide5">
+            <h1>Cloud 9</h1>
+            <p>Floating on air with you is the only way I want to live.</p>
+            <p>You make every day feel like a walk on the clouds.</p>
+            <button class="btn" onclick="nextSlide()">FINAL WISH</button>
+        </div>
+
+        <!-- Slide 6: Silver Lining -->
+        <div class="slide" id="slide6">
+            <h1>Silver Lining</h1>
+            <p>No matter how dark the day,<br>you are always the light.</p>
+            <p style="font-style: italic;">My ray of sunshine.</p>
+            <button class="btn" onclick="nextSlide()">SHINE ON</button>
+        </div>
+
+        <!-- Slide 7: Message Section -->
+        <div class="slide" id="slide7">
+            <h1>From the Heart</h1>
+            <div class="message-card">
+                <p>My sweet Ammadu,</p>
+                <div id="typing-text" style="font-size: 1rem; min-height: 100px;"></div>
+            </div>
+            <button class="btn" onclick="nextSlide()">ETERNITY</button>
+        </div>
+
+        <!-- Slide 8: Final Message -->
+        <div class="slide" id="slide8">
+            <h1>Always Us</h1>
+            <p>Happy Valentine's Day,<br>my beautiful soul.<br><span
+                    style="font-size: 0.9rem; font-style: italic; margin-top: 5px; display: block;">From Venkat❤ </span>
+            </p>
+            <p style="font-size: 3rem; margin: 10px 0;">☁️</p>
+            <p style="font-size: 0.8rem; opacity: 0.5;">FOREVER DRIFTING TOGETHER</p>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+
+</html>

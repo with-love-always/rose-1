@@ -1,0 +1,280 @@
+:root {
+    --bg-black: #000000;
+    --text-white: #ffffff;
+    --accent: #ff4d6d;
+    --progress-bg: rgba(255, 255, 255, 0.3);
+    --progress-fill: rgba(255, 255, 255, 0.9);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    background-color: var(--bg-black);
+    color: var(--text-white);
+    overflow: hidden;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.story-container {
+    width: 100%;
+    max-width: 450px;
+    height: 100%;
+    position: relative;
+    background: #111;
+    overflow: hidden;
+    box-shadow: 0 0 50px rgba(0,0,0,0.5);
+}
+
+/* Progress Bars */
+.progress-container {
+    position: absolute;
+    top: 15px;
+    left: 10px;
+    right: 10px;
+    display: flex;
+    gap: 5px;
+    z-index: 100;
+}
+
+.progress-bar {
+    height: 2px;
+    background: var(--progress-bg);
+    flex: 1;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--progress-fill);
+    width: 0%;
+    transition: width 0.1s linear;
+}
+
+.progress-bar.active .progress-fill {
+    width: 100%;
+}
+
+.progress-bar.viewed .progress-fill {
+    width: 100%;
+}
+
+/* Slides */
+.slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    text-align: center;
+    transition: all 1s cubic-bezier(0.23, 1, 0.32, 1);
+    transform: translateY(40px) scale(0.95);
+    opacity: 0;
+    visibility: hidden;
+    z-index: 1;
+    pointer-events: none; /* Let taps through to navigation areas */
+}
+
+.slide.active {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    visibility: visible;
+    z-index: 20; /* Keep active slide content above everything */
+}
+
+.slide.active * {
+    pointer-events: auto; /* Re-enable interaction for buttons and links */
+}
+
+.slide.prev {
+    transform: translateY(-40px) scale(0.95);
+    opacity: 0;
+}
+
+/* Content Styles */
+h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+    letter-spacing: -1px;
+}
+
+p {
+    font-size: 1.2rem;
+    line-height: 1.5;
+    opacity: 0.9;
+}
+
+.accent-text {
+    color: var(--accent);
+}
+
+/* Standardized Photo Frame */
+.photo-frame {
+    width: 280px;
+    height: 350px;
+    margin-bottom: 20px;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 2px solid rgba(255,255,255,0.1);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+    flex-shrink: 0;
+}
+
+.photo-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Interaction */
+.tap-areas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    z-index: 10; /* Lower than active slide, but above background */
+}
+
+.tap-left, .tap-right {
+    flex: 1;
+    height: 100%;
+}
+
+/* Message Section */
+.message-box {
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    padding: 20px;
+    border-radius: 15px;
+    width: 100%;
+    margin-top: 20px;
+    text-align: left;
+}
+
+.message-box label {
+    font-size: 0.8rem;
+    opacity: 0.6;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 10px;
+}
+
+#typing-text {
+    font-size: 1.1rem;
+    min-height: 100px;
+    border-left: 2px solid var(--accent);
+    padding-left: 15px;
+}
+
+/* Final Slide Custom UX */
+.final-content {
+    animation: fadeIn 2s ease forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.btn {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 30px;
+    font-weight: bold;
+    font-size: 1rem;
+    margin-top: 30px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 4px 15px rgba(255, 77, 109, 0.3);
+    position: relative;
+    z-index: 100; /* Above tap areas */
+}
+
+.btn:hover {
+    transform: scale(1.05) translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 77, 109, 0.5);
+    background: #ff6b81;
+}
+
+.btn:active {
+    transform: scale(0.95);
+}
+
+/* No restart for UX - optional button to save image or just stay */
+/* No restart for UX - optional button to save image or just stay */
+.hidden { display: none; }
+
+/* -----------------------------------------------------------
+   ANIMATIONS & EFFECTS
+----------------------------------------------------------- */
+
+/* Slide content staggered entrance */
+.slide.active h1 {
+    animation: slideInUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    opacity: 0;
+    animation-delay: 0.2s;
+}
+
+.slide.active p {
+    animation: slideInUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    opacity: 0;
+    animation-delay: 0.4s;
+}
+
+.slide.active .btn,
+.slide.active .photo-frame,
+.slide.active .message-box {
+    animation: slideInUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    opacity: 0;
+    animation-delay: 0.6s;
+}
+
+/* Ensure elements are hidden before animation starts */
+.slide h1, .slide p, .slide .btn, .slide .photo-frame, .slide .message-box {
+    opacity: 0;
+} 
+/* But make sure they are visible if not active (or reset) - actually the .slide handles visibility, 
+   but we want the *content* to be hidden until the slide becomes active to trigger animation. 
+   When slide is NOT active, opacity 0 is fine. 
+   Wait, if we go BACK, we want them to disappear? Yes.
+*/
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Blast / Flower Effect Particles */
+.particle {
+    position: absolute;
+    pointer-events: none;
+    border-radius: 50%;
+    z-index: 9999;
+}
+
+@keyframes particle-fade {
+    0% { transform: scale(0); opacity: 1; }
+    50% { opacity: 1; }
+    100% { transform: scale(1); opacity: 0; }
+}
